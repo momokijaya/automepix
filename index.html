@@ -256,12 +256,12 @@
 <body>
     <!-- Main Application -->
     <div id="app" class="min-h-screen">
-        <div class="max-w-8xl mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="max-w-8xl mx-auto p-4 lg:p-8">
             <!-- Main Content Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 lg:gap-8">
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8">
                 <!-- Left Sidebar -->
-                <aside class="lg:col-span-1 space-y-6">
-                    <div class="surface rounded-3xl p-5 fade-in space-y-6 lg:sticky lg:top-6">
+                <aside class="lg:col-span-1">
+                    <div class="surface rounded-3xl p-5 fade-in space-y-4 lg:sticky lg:top-8">
                         <div class="text-center">
                             <div class="flex items-center justify-center space-x-3 mb-2">
                                 <div class="w-10 h-10 rounded-lg flex items-center justify-center shadow-lg bg-gradient-to-br from-cyan-400 to-indigo-600">
@@ -273,57 +273,57 @@
                         </div>
 
                         <div>
-                            <h2 class="section-header text-xl mb-4" data-lang="quick_actions">🚀 Actions</h2>
-                            <div class="space-y-3">
-                                <button id="add-files-btn" class="w-full btn btn-primary"><i class="fas fa-file-plus mr-2"></i><span data-lang="add_files">Add Files</span></button>
-                                <button id="add-folder-btn" class="w-full btn btn-secondary"><i class="fas fa-folder-plus mr-2"></i><span data-lang="add_folder">Add Folder</span></button>
-                                <button id="batch-all-btn" class="w-full btn btn-process"><i class="fas fa-magic-wand-sparkles mr-2"></i><span data-lang="batch_all_files">Process All</span></button>
-                                <button id="stop-batch-btn" class="w-full btn btn-danger hidden"><i class="fas fa-stop-circle mr-2"></i><span>Stop</span></button>
-                                <button id="export-csv-btn" class="w-full btn btn-secondary"><i class="fas fa-file-export mr-2"></i><span data-lang="export_metadata_csv">Export CSV</span></button>
-                                <button id="keyword-tools-btn" class="w-full btn btn-secondary"><i class="fas fa-tools mr-2"></i><span>Keyword Tools</span></button>
-                                <button id="settings-btn" class="w-full btn btn-secondary"><i class="fas fa-cog mr-2"></i><span data-lang="options">Settings</span></button>
+                            <h2 class="section-header text-lg mb-3" data-lang="quick_actions">🚀 Actions</h2>
+                            <div class="space-y-2">
+                                <button id="add-files-btn" class="w-full btn btn-primary btn-sm"><i class="fas fa-file-plus mr-2"></i><span data-lang="add_files">Add Files</span></button>
+                                <button id="add-folder-btn" class="w-full btn btn-secondary btn-sm"><i class="fas fa-folder-plus mr-2"></i><span data-lang="add_folder">Add Folder</span></button>
+                                <button id="batch-all-btn" class="w-full btn btn-process btn-sm"><i class="fas fa-magic-wand-sparkles mr-2"></i><span data-lang="batch_all_files">Process All</span></button>
+                                <button id="stop-batch-btn" class="w-full btn btn-danger btn-sm hidden"><i class="fas fa-stop-circle mr-2"></i><span>Stop</span></button>
+                                <button id="export-csv-btn" class="w-full btn btn-secondary btn-sm"><i class="fas fa-file-export mr-2"></i><span data-lang="export_metadata_csv">Export CSV</span></button>
+                                <button id="keyword-tools-btn" class="w-full btn btn-secondary btn-sm"><i class="fas fa-tools mr-2"></i><span>Keyword Tools</span></button>
+                                <button id="settings-btn" class="w-full btn btn-secondary btn-sm"><i class="fas fa-cog mr-2"></i><span data-lang="options">Settings</span></button>
                             </div>
                         </div>
 
                         <div>
-                            <h2 class="section-header text-xl mb-4" data-lang="stats_group">📊 Statistics</h2>
-                            <div class="grid grid-cols-2 gap-3 text-center">
-                                <div class="bg-slate-100 dark:bg-slate-700/50 rounded-2xl p-3">
+                            <h2 class="section-header text-lg mb-3" data-lang="stats_group">📊 Statistics</h2>
+                            <div class="grid grid-cols-2 gap-2 text-center">
+                                <div class="bg-slate-100 dark:bg-slate-700/50 rounded-xl p-2">
                                     <div class="text-xs font-medium uppercase text-slate-500 mb-1" data-lang="total_files">Total</div>
-                                    <div id="stats-total" class="text-2xl font-bold text-slate-800 dark:text-slate-100">0</div>
+                                    <div id="stats-total" class="text-xl font-bold text-slate-800 dark:text-slate-100">0</div>
                                 </div>
-                                <div class="bg-green-500/10 dark:bg-green-500/20 rounded-2xl p-3">
+                                <div class="bg-green-500/10 dark:bg-green-500/20 rounded-xl p-2">
                                     <div class="text-xs font-medium uppercase text-green-600 dark:text-green-400 mb-1" data-lang="processed_files">Done</div>
-                                    <div id="stats-processed" class="text-2xl font-bold text-green-500">0</div>
+                                    <div id="stats-processed" class="text-xl font-bold text-green-500">0</div>
                                 </div>
-                                <div class="bg-amber-500/10 dark:bg-amber-500/20 rounded-2xl p-3">
+                                <div class="bg-amber-500/10 dark:bg-amber-500/20 rounded-xl p-2">
                                     <div class="text-xs font-medium uppercase text-amber-600 dark:text-amber-400 mb-1" data-lang="pending_files">Pending</div>
-                                    <div id="stats-pending" class="text-2xl font-bold text-amber-500">0</div>
+                                    <div id="stats-pending" class="text-xl font-bold text-amber-500">0</div>
                                 </div>
-                                <div class="bg-rose-500/10 dark:bg-rose-500/20 rounded-2xl p-3">
+                                <div class="bg-rose-500/10 dark:bg-rose-500/20 rounded-xl p-2">
                                     <div class="text-xs font-medium uppercase text-rose-600 dark:text-rose-400 mb-1" data-lang="error_files">Errors</div>
-                                    <div id="stats-errors" class="text-2xl font-bold text-rose-500">0</div>
+                                    <div id="stats-errors" class="text-xl font-bold text-rose-500">0</div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="space-y-2">
                             <div class="flex items-center space-x-2">
-                                <button id="theme-toggle" class="w-full btn btn-secondary text-sm">
+                                <button id="theme-toggle" class="w-full btn btn-secondary text-sm btn-sm">
                                     <i class="fas fa-sun text-slate-700 dark:text-slate-300 text-sm"></i>
                                 </button>
-                                <select id="language-select" class="w-full custom-input text-sm">
+                                <select id="language-select" class="w-full custom-input text-sm py-2">
                                     <option value="English">English</option>
                                     <option value="Indonesia">Indonesia</option>
                                 </select>
                             </div>
-                            <button id="clear-all-btn" class="w-full btn btn-danger"><i class="fas fa-trash-alt mr-2"></i><span data-lang="clear_all">Clear All</span></button>
+                            <button id="clear-all-btn" class="w-full btn btn-danger btn-sm"><i class="fas fa-trash-alt mr-2"></i><span data-lang="clear_all">Clear All</span></button>
                         </div>
                     </div>
                 </aside>
 
                 <!-- Main Gallery Area -->
-                <main class="lg:col-span-4 lg:h-[calc(100vh-3rem)]">
+                <main class="lg:col-span-4 lg:h-[calc(100vh-4rem)]">
                     <div class="surface rounded-3xl p-4 sm:p-6 h-full flex flex-col fade-in">
                         <div class="flex flex-col sm:flex-row sm:flex-wrap sm:justify-between sm:items-center mb-4 gap-4">
                              <div class="flex items-center gap-2 w-full sm:w-auto">
