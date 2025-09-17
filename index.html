@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Indexinode Professional - AI Metadata Generator</title>
+    <title>AutoMetaPixxx Professional - AI Metadata Generator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
@@ -253,18 +253,18 @@
     <div id="app" class="min-h-screen">
         <div class="max-w-8xl mx-auto p-4 sm:p-6 lg:p-8">
             <!-- Main Content Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 lg:gap-8">
                 <!-- Left Sidebar -->
                 <aside class="lg:col-span-1 space-y-6">
-                    <div class="surface rounded-3xl p-5 fade-in space-y-6 sticky top-6">
+                    <div class="surface rounded-3xl p-5 fade-in space-y-6 lg:sticky lg:top-6">
                         <div class="text-center">
                             <div class="flex items-center justify-center space-x-3 mb-2">
                                 <div class="w-10 h-10 rounded-lg flex items-center justify-center shadow-lg bg-gradient-to-br from-cyan-400 to-indigo-600">
                                     <i class="fas fa-robot text-white text-xl"></i>
                                 </div>
-                                <h1 class="text-xl font-bold title-text">Indexinode</h1>
+                                <h1 class="text-xl font-bold title-text">AutoMetaPixxx</h1>
                             </div>
-                            <p class="text-xs text-slate-400">Developed by Apinakew</p>
+                            <p class="text-xs text-slate-400">Crafted by Apinakew</p>
                         </div>
 
                         <div>
@@ -318,12 +318,12 @@
                 </aside>
 
                 <!-- Main Gallery Area -->
-                <main class="lg:col-span-4 h-[calc(100vh-3rem)]">
-                    <div class="surface rounded-3xl p-6 h-full flex flex-col fade-in">
-                        <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
-                             <div class="flex items-center gap-2">
+                <main class="lg:col-span-4 lg:h-[calc(100vh-3rem)]">
+                    <div class="surface rounded-3xl p-4 sm:p-6 h-full flex flex-col fade-in">
+                        <div class="flex flex-col sm:flex-row sm:flex-wrap sm:justify-between sm:items-center mb-4 gap-4">
+                             <div class="flex items-center gap-2 w-full sm:w-auto">
                                 <label for="filter-select" class="text-sm font-medium whitespace-nowrap">Filter by:</label>
-                                <select id="filter-select" class="custom-input text-sm py-1.5">
+                                <select id="filter-select" class="custom-input text-sm py-1.5 w-full">
                                     <option value="all">Show All</option>
                                     <option value="ready">Processed</option>
                                     <option value="unprocessed">Pending</option>
@@ -333,10 +333,10 @@
                              <div id="bulk-edit-panel" class="hidden flex-1 min-w-[200px]">
                                 <button id="bulk-edit-btn" class="w-full btn btn-secondary btn-sm"><i class="fas fa-edit mr-2"></i>Bulk Edit Selected</button>
                              </div>
-                            <div class="flex items-center gap-4">
-                                <div class="flex items-center gap-2">
+                            <div class="flex items-center gap-4 w-full sm:w-auto">
+                                <div class="flex items-center gap-2 flex-1">
                                     <label for="sort-select" class="text-sm font-medium whitespace-nowrap">Sort by:</label>
-                                    <select id="sort-select" class="custom-input text-sm py-1.5">
+                                    <select id="sort-select" class="custom-input text-sm py-1.5 w-full">
                                         <option value="date_desc">Newest</option>
                                         <option value="date_asc">Oldest</option>
                                         <option value="name_asc">Name (A-Z)</option>
@@ -384,8 +384,8 @@
     <input type="file" id="folder-input" webkitdirectory directory class="hidden">
 
     <!-- Modals -->
-    <div id="settings-modal" class="fixed inset-0 modal-backdrop flex items-center justify-center hidden z-50">
-        <div class="surface rounded-3xl w-full max-w-lg p-8 fade-in flex flex-col">
+    <div id="settings-modal" class="fixed inset-0 modal-backdrop flex items-center justify-center hidden z-50 p-4">
+        <div class="surface rounded-3xl w-full max-w-lg p-8 fade-in flex flex-col max-h-[90vh]">
             <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-6">
                 <h3 class="text-2xl font-bold title-text" data-lang="options">Settings</h3>
                 <button id="close-settings-btn" class="w-10 h-10 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition flex items-center justify-center"><i class="fas fa-times text-lg"></i></button>
@@ -438,7 +438,7 @@
         </div>
     </div>
     
-    <div id="translate-modal" class="fixed inset-0 modal-backdrop flex items-center justify-center hidden z-50">
+    <div id="translate-modal" class="fixed inset-0 modal-backdrop flex items-center justify-center hidden z-50 p-4">
          <div class="surface rounded-3xl w-full max-w-sm p-8 fade-in">
             <h3 class="text-2xl font-bold mb-6 title-text" data-lang="translate_to">Translate to...</h3>
             <div id="translate-language-list" class="grid grid-cols-1 gap-3"></div>
@@ -448,7 +448,7 @@
         </div>
     </div>
 
-     <div id="clean-keywords-modal" class="fixed inset-0 modal-backdrop flex items-center justify-center hidden z-50">
+     <div id="clean-keywords-modal" class="fixed inset-0 modal-backdrop flex items-center justify-center hidden z-50 p-4">
         <div class="surface rounded-3xl w-full max-w-sm p-8 fade-in">
             <h3 class="text-2xl font-bold mb-6 title-text" data-lang="clean_keywords">Keyword Options</h3>
             <div class="space-y-4">
@@ -472,7 +472,7 @@
         </div>
     </div>
 
-    <div id="keyword-tools-modal" class="fixed inset-0 modal-backdrop flex items-center justify-center hidden z-50">
+    <div id="keyword-tools-modal" class="fixed inset-0 modal-backdrop flex items-center justify-center hidden z-50 p-4">
         <div class="surface rounded-3xl w-full max-w-lg p-8 fade-in">
              <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-6">
                 <h3 class="text-2xl font-bold title-text">Keyword Tools</h3>
@@ -496,7 +496,7 @@
         </div>
     </div>
     
-    <div id="confirm-modal" class="fixed inset-0 modal-backdrop flex items-center justify-center hidden z-50">
+    <div id="confirm-modal" class="fixed inset-0 modal-backdrop flex items-center justify-center hidden z-50 p-4">
         <div class="surface rounded-3xl w-full max-w-sm p-8 fade-in text-center">
              <div class="w-16 h-16 mx-auto rounded-full bg-amber-100 dark:bg-amber-500/20 flex items-center justify-center mb-6">
                  <i class="fas fa-exclamation-triangle text-3xl text-amber-500"></i>
@@ -513,14 +513,14 @@
 
     <!-- Image Card Template -->
     <template id="image-card-template">
-        <div class="image-card surface rounded-2xl p-4 flex flex-col lg:flex-row gap-6 relative group">
+        <div class="image-card surface rounded-2xl p-4 flex flex-col sm:flex-row gap-6 relative group">
             <div class="selection-indicator absolute top-3 left-3 w-6 h-6 rounded-full bg-white/50 dark:bg-slate-900/50 border-2 border-white dark:border-slate-600 flex items-center justify-center opacity-0 group-[.selected]:opacity-100 transition-opacity z-20">
                  <i class="fas fa-check text-xs text-white"></i>
             </div>
             <button class="delete-btn absolute top-3 right-3 w-8 h-8 rounded-full bg-rose-500 text-white transition flex items-center justify-center opacity-0 group-hover:opacity-100 z-10">
                 <i class="fas fa-times text-sm"></i>
             </button>
-            <div class="flex-shrink-0 w-full lg:w-52 text-center relative">
+            <div class="flex-shrink-0 w-full sm:w-52 text-center relative">
                 <div class="processing-overlay absolute inset-0 bg-slate-900/50 rounded-xl flex items-center justify-center z-10">
                     <i class="fas fa-spinner spinner text-white text-3xl"></i>
                 </div>
@@ -537,7 +537,7 @@
                     <input type="text" class="title-input w-full custom-input text-sm pr-10" data-lang-placeholder="title_placeholder">
                     <button class="copy-btn absolute top-8 right-2 text-slate-400 hover:text-cyan-500 p-1"><i class="fas fa-copy"></i></button>
                 </div>
-                <div class="relative">
+                <div class="relative grid-view-hidden">
                     <label class="block text-sm font-bold mb-1.5 text-slate-800 dark:text-slate-200" data-lang="description">📝 Description</label>
                     <textarea rows="2" class="description-input w-full custom-input text-sm resize-none pr-10" data-lang-placeholder="description_placeholder"></textarea>
                     <button class="copy-btn absolute top-8 right-2 text-slate-400 hover:text-cyan-500 p-1"><i class="fas fa-copy"></i></button>
@@ -547,8 +547,8 @@
                         <label class="block text-sm font-bold text-slate-800 dark:text-slate-200" data-lang="keywords">🏷️ Keywords</label>
                         <span class="keyword-count text-xs px-2 py-1 rounded-lg bg-slate-200 dark:bg-slate-700 font-semibold">0 keywords</span>
                     </div>
-                    <textarea rows="3" class="keywords-input w-full custom-input text-sm resize-none pr-10" data-lang-placeholder="keywords_placeholder"></textarea>
-                    <button class="copy-btn absolute top-8 right-2 text-slate-400 hover:text-cyan-500 p-1"><i class="fas fa-copy"></i></button>
+                    <textarea rows="3" class="keywords-input w-full custom-input text-sm resize-none pr-10 grid-view-hidden" data-lang-placeholder="keywords_placeholder"></textarea>
+                    <button class="copy-btn absolute top-8 right-2 text-slate-400 hover:text-cyan-500 p-1 grid-view-hidden"><i class="fas fa-copy"></i></button>
                 </div>
                 <div class="flex flex-wrap gap-2 pt-2">
                     <div class="relative flex-1 min-w-[120px]">
@@ -630,7 +630,7 @@
         ];
         let apiKeyIndex = 0;
 
-        let settings = { model: 'gemini-2.0-flash', delay: 0, promptStyle: 'microstock', theme: 'dark', language: 'English' };
+        let settings = { model: 'gemini-2.5-flash', delay: 5, promptStyle: 'microstock', theme: 'dark', language: 'English' };
         let imageObjects = new Map();
         let taskQueue = [];
         let isProcessing = false;
@@ -1210,17 +1210,11 @@
         });
 
         const setView = (view) => {
-            if (view === 'grid') {
-                dom.imageGallery.classList.remove('list-view');
-                dom.imageGallery.classList.add('grid-view');
-                dom.gridViewBtn.classList.add('active');
-                dom.listViewBtn.classList.remove('active');
-            } else {
-                dom.imageGallery.classList.remove('grid-view');
-                dom.imageGallery.classList.add('list-view');
-                dom.listViewBtn.classList.add('active');
-                dom.gridViewBtn.classList.remove('active');
-            }
+            const isGridView = view === 'grid';
+            dom.imageGallery.classList.toggle('list-view', !isGridView);
+            dom.imageGallery.classList.toggle('grid-view', isGridView);
+            dom.gridViewBtn.classList.toggle('active', isGridView);
+            dom.listViewBtn.classList.toggle('active', !isGridView);
         };
 
         dom.listViewBtn.addEventListener('click', () => setView('list'));
@@ -1290,14 +1284,11 @@
                 dom.translateLanguageList.appendChild(btn);
             });
             loadSettings();
-            showToast('🎉 Welcome to Indexinode Pro!', 'info');
+            showToast('🎉 Welcome to AutoMetaPixxx Pro!', 'info');
         };
 
         initialize();
     });
     </script>
 </body>
-
 </html>
-
-
