@@ -257,14 +257,14 @@
     <div id="app" class="min-h-screen">
         <div class="max-w-8xl mx-auto p-4 lg:p-8">
             <!-- Mobile Header -->
-            <div class="lg:hidden flex justify-between items-center mb-4">
+            <div class="lg:hidden flex justify-between items-center sticky top-0 z-30 py-2 bg-[var(--bg-light)] dark:bg-[var(--bg-dark)] -mt-4 -mx-4 px-4 mb-4 shadow-md">
                 <div class="flex items-center space-x-3">
                     <div class="w-10 h-10 rounded-lg flex items-center justify-center shadow-lg bg-gradient-to-br from-cyan-400 to-indigo-600">
                         <i class="fas fa-robot text-white text-xl"></i>
                     </div>
                     <h1 class="text-xl font-bold title-text">Indexinode</h1>
                 </div>
-                <button id="mobile-menu-btn" class="p-3 rounded-xl bg-white/10 dark:bg-slate-700/50">
+                <button id="mobile-menu-btn" class="p-3 rounded-xl bg-slate-200 dark:bg-slate-700/50">
                     <i class="fas fa-bars text-xl"></i>
                 </button>
             </div>
@@ -272,8 +272,11 @@
             <!-- Main Content Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
                 <!-- Left Sidebar -->
-                <aside id="sidebar" class="fixed top-0 left-0 h-full w-full max-w-sm lg:max-w-none bg-[var(--surface-dark)] p-4 lg:p-0 lg:bg-transparent lg:col-span-3 lg:relative lg:h-auto z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
-                    <div class="surface rounded-3xl p-5 fade-in space-y-4 h-full overflow-y-auto">
+                <aside id="sidebar" class="fixed top-0 left-0 h-full w-full max-w-xs lg:max-w-none bg-[var(--surface-light)] dark:bg-[var(--surface-dark)] lg:bg-transparent lg:col-span-2 lg:relative lg:h-auto z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
+                    <div class="surface rounded-none lg:rounded-3xl p-5 fade-in space-y-4 h-full overflow-y-auto">
+                        <button id="close-mobile-menu-btn" class="absolute top-4 right-4 lg:hidden w-10 h-10 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition flex items-center justify-center z-10">
+                           <i class="fas fa-times text-lg"></i>
+                        </button>
                         <div class="text-center hidden lg:block">
                             <div class="flex items-center justify-center space-x-3 mb-2">
                                 <div class="w-10 h-10 rounded-lg flex items-center justify-center shadow-lg bg-gradient-to-br from-cyan-400 to-indigo-600">
@@ -335,7 +338,7 @@
                 </aside>
 
                 <!-- Main Gallery Area -->
-                <main class="lg:col-span-9">
+                <main class="lg:col-span-10">
                     <div class="surface rounded-3xl p-4 sm:p-6 h-full flex flex-col fade-in">
                         <div class="flex flex-col sm:flex-row sm:flex-wrap sm:justify-between sm:items-center mb-4 gap-4">
                              <div class="flex items-center gap-2 w-full sm:w-auto">
@@ -671,7 +674,7 @@
         function _(key) { return LANGUAGES[settings.language]?.[key] || LANGUAGES['English'][key] || key; }
 
         const dom = {
-            app: document.getElementById('app'), galleryContainer: document.getElementById('gallery-container'), galleryPlaceholder: document.getElementById('gallery-placeholder'), imageGallery: document.getElementById('image-gallery'), imageCardTemplate: document.getElementById('image-card-template'), addFilesBtn: document.getElementById('add-files-btn'), addFolderBtn: document.getElementById('add-folder-btn'), fileInput: document.getElementById('file-input'), folderInput: document.getElementById('folder-input'), clearAllBtn: document.getElementById('clear-all-btn'), batchAllBtn: document.getElementById('batch-all-btn'), stopBatchBtn: document.getElementById('stop-batch-btn'), exportCsvBtn: document.getElementById('export-csv-btn'), statsTotal: document.getElementById('stats-total'), statsProcessed: document.getElementById('stats-processed'), statsPending: document.getElementById('stats-pending'), statsErrors: document.getElementById('stats-errors'), progressBar: document.getElementById('progress-bar'), progressLabel: document.getElementById('progress-label'), settingsBtn: document.getElementById('settings-btn'), settingsModal: document.getElementById('settings-modal'), closeSettingsBtn: document.getElementById('close-settings-btn'), saveSettingsBtn: document.getElementById('save-settings-btn'), modelSelect: document.getElementById('model-select'), delayInput: document.getElementById('delay-input'), translateModal: document.getElementById('translate-modal'), closeTranslateBtn: document.getElementById('close-translate-btn'), translateLanguageList: document.getElementById('translate-language-list'), cleanKeywordsModal: document.getElementById('clean-keywords-modal'), cancelCleanBtn: document.getElementById('cancel-clean-btn'), applyCleanBtn: document.getElementById('apply-clean-btn'), promptStyleSelectModal: document.getElementById('prompt-style-select-modal'), themeToggle: document.getElementById('theme-toggle'), languageSelect: document.getElementById('language-select'), toastContainer: document.getElementById('toast-container'), filterSelect: document.getElementById('filter-select'), sortSelect: document.getElementById('sort-select'), listViewBtn: document.getElementById('list-view-btn'), gridViewBtn: document.getElementById('grid-view-btn'), confirmModal: document.getElementById('confirm-modal'), confirmTitle: document.getElementById('confirm-title'), confirmMessage: document.getElementById('confirm-message'), confirmOkBtn: document.getElementById('confirm-ok-btn'), confirmCancelBtn: document.getElementById('confirm-cancel-btn'), keywordToolsBtn: document.getElementById('keyword-tools-btn'), keywordToolsModal: document.getElementById('keyword-tools-modal'), closeKeywordToolsBtn: document.getElementById('close-keyword-tools-btn'), saveKeywordToolsBtn: document.getElementById('save-keyword-tools-btn'), alwaysIncludeKeywords: document.getElementById('always-include-keywords'), blacklistKeywords: document.getElementById('blacklist-keywords'), savePresetBtn: document.getElementById('save-preset-btn'), presetNameInput: document.getElementById('preset-name-input'), presetSelect: document.getElementById('preset-select'), deletePresetBtn: document.getElementById('delete-preset-btn'), bulkEditPanel: document.getElementById('bulk-edit-panel'), bulkEditBtn: document.getElementById('bulk-edit-btn'), sidebar: document.getElementById('sidebar'), mobileMenuBtn: document.getElementById('mobile-menu-btn'), mobileMenuOverlay: document.getElementById('mobile-menu-overlay'),
+            app: document.getElementById('app'), galleryContainer: document.getElementById('gallery-container'), galleryPlaceholder: document.getElementById('gallery-placeholder'), imageGallery: document.getElementById('image-gallery'), imageCardTemplate: document.getElementById('image-card-template'), addFilesBtn: document.getElementById('add-files-btn'), addFolderBtn: document.getElementById('add-folder-btn'), fileInput: document.getElementById('file-input'), folderInput: document.getElementById('folder-input'), clearAllBtn: document.getElementById('clear-all-btn'), batchAllBtn: document.getElementById('batch-all-btn'), stopBatchBtn: document.getElementById('stop-batch-btn'), exportCsvBtn: document.getElementById('export-csv-btn'), statsTotal: document.getElementById('stats-total'), statsProcessed: document.getElementById('stats-processed'), statsPending: document.getElementById('stats-pending'), statsErrors: document.getElementById('stats-errors'), progressBar: document.getElementById('progress-bar'), progressLabel: document.getElementById('progress-label'), settingsBtn: document.getElementById('settings-btn'), settingsModal: document.getElementById('settings-modal'), closeSettingsBtn: document.getElementById('close-settings-btn'), saveSettingsBtn: document.getElementById('save-settings-btn'), modelSelect: document.getElementById('model-select'), delayInput: document.getElementById('delay-input'), translateModal: document.getElementById('translate-modal'), closeTranslateBtn: document.getElementById('close-translate-btn'), translateLanguageList: document.getElementById('translate-language-list'), cleanKeywordsModal: document.getElementById('clean-keywords-modal'), cancelCleanBtn: document.getElementById('cancel-clean-btn'), applyCleanBtn: document.getElementById('apply-clean-btn'), promptStyleSelectModal: document.getElementById('prompt-style-select-modal'), themeToggle: document.getElementById('theme-toggle'), languageSelect: document.getElementById('language-select'), toastContainer: document.getElementById('toast-container'), filterSelect: document.getElementById('filter-select'), sortSelect: document.getElementById('sort-select'), listViewBtn: document.getElementById('list-view-btn'), gridViewBtn: document.getElementById('grid-view-btn'), confirmModal: document.getElementById('confirm-modal'), confirmTitle: document.getElementById('confirm-title'), confirmMessage: document.getElementById('confirm-message'), confirmOkBtn: document.getElementById('confirm-ok-btn'), confirmCancelBtn: document.getElementById('confirm-cancel-btn'), keywordToolsBtn: document.getElementById('keyword-tools-btn'), keywordToolsModal: document.getElementById('keyword-tools-modal'), closeKeywordToolsBtn: document.getElementById('close-keyword-tools-btn'), saveKeywordToolsBtn: document.getElementById('save-keyword-tools-btn'), alwaysIncludeKeywords: document.getElementById('always-include-keywords'), blacklistKeywords: document.getElementById('blacklist-keywords'), savePresetBtn: document.getElementById('save-preset-btn'), presetNameInput: document.getElementById('preset-name-input'), presetSelect: document.getElementById('preset-select'), deletePresetBtn: document.getElementById('delete-preset-btn'), bulkEditPanel: document.getElementById('bulk-edit-panel'), bulkEditBtn: document.getElementById('bulk-edit-btn'), sidebar: document.getElementById('sidebar'), mobileMenuBtn: document.getElementById('mobile-menu-btn'), mobileMenuOverlay: document.getElementById('mobile-menu-overlay'), closeMobileMenuBtn: document.getElementById('close-mobile-menu-btn'),
         };
         
         // --- Mobile Menu ---
@@ -687,6 +690,7 @@
             }
         };
         dom.mobileMenuBtn.addEventListener('click', () => toggleMobileMenu(true));
+        dom.closeMobileMenuBtn.addEventListener('click', () => toggleMobileMenu(false));
         dom.mobileMenuOverlay.addEventListener('click', () => toggleMobileMenu(false));
         
         // --- Custom Confirm Modal ---
@@ -785,7 +789,7 @@
                     case 'name_asc': return objA.name.localeCompare(objB.name);
                     case 'name_desc': return objB.name.localeCompare(objA.name);
                     case 'date_asc': return objA.addedTimestamp - objB.addedTimestamp;
-                    case 'date_desc': return objB.addedTimestamp - a.addedTimestamp;
+                    case 'date_desc': return objB.addedTimestamp - objA.addedTimestamp;
                     default: return 0;
                 }
             });
@@ -1202,8 +1206,11 @@
         // Drag & Drop
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dom.app.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); });
+            dom.sidebar.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); });
         });
         dom.app.addEventListener('drop', e => addFiles(e.dataTransfer.files));
+        dom.sidebar.addEventListener('drop', e => addFiles(e.dataTransfer.files));
+
 
         // Modals & Controls
         dom.settingsBtn.addEventListener('click', () => dom.settingsModal.classList.remove('hidden'));
@@ -1331,3 +1338,4 @@
     </script>
 </body>
 </html>
+
