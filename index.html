@@ -233,15 +233,6 @@
             flex-direction: column;
             gap: 1.5rem;
         }
-        .grid-view .grid-view-hidden {
-            display: block;
-        }
-        @media (min-width: 640px) {
-            .grid-view .grid-view-hidden {
-                display: none;
-            }
-        }
-
 
         /* --- Animations --- */
         .fade-in { animation: fadeIn 0.3s ease-out forwards; }
@@ -259,15 +250,31 @@
     </style>
 </head>
 <body>
+    <!-- Mobile menu overlay -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/60 z-40 hidden lg:hidden"></div>
+    
     <!-- Main Application -->
     <div id="app" class="min-h-screen">
         <div class="max-w-8xl mx-auto p-4 lg:p-8">
+            <!-- Mobile Header -->
+            <div class="lg:hidden flex justify-between items-center mb-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-lg flex items-center justify-center shadow-lg bg-gradient-to-br from-cyan-400 to-indigo-600">
+                        <i class="fas fa-robot text-white text-xl"></i>
+                    </div>
+                    <h1 class="text-xl font-bold title-text">Indexinode</h1>
+                </div>
+                <button id="mobile-menu-btn" class="p-3 rounded-xl bg-white/10 dark:bg-slate-700/50">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+
             <!-- Main Content Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
                 <!-- Left Sidebar -->
-                <aside class="lg:col-span-1">
-                    <div class="surface rounded-3xl p-5 fade-in space-y-4 lg:sticky lg:top-8">
-                        <div class="text-center">
+                <aside id="sidebar" class="fixed top-0 left-0 h-full w-full max-w-sm lg:max-w-none bg-[var(--surface-dark)] p-4 lg:p-0 lg:bg-transparent lg:col-span-3 lg:relative lg:h-auto z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
+                    <div class="surface rounded-3xl p-5 fade-in space-y-4 h-full overflow-y-auto">
+                        <div class="text-center hidden lg:block">
                             <div class="flex items-center justify-center space-x-3 mb-2">
                                 <div class="w-10 h-10 rounded-lg flex items-center justify-center shadow-lg bg-gradient-to-br from-cyan-400 to-indigo-600">
                                     <i class="fas fa-robot text-white text-xl"></i>
@@ -328,20 +335,20 @@
                 </aside>
 
                 <!-- Main Gallery Area -->
-                <main class="lg:col-span-4 lg:h-[calc(100vh-4rem)]">
+                <main class="lg:col-span-9">
                     <div class="surface rounded-3xl p-4 sm:p-6 h-full flex flex-col fade-in">
                         <div class="flex flex-col sm:flex-row sm:flex-wrap sm:justify-between sm:items-center mb-4 gap-4">
                              <div class="flex items-center gap-2 w-full sm:w-auto">
-                                <label for="filter-select" class="text-sm font-medium whitespace-nowrap">Filter by:</label>
-                                <select id="filter-select" class="custom-input text-sm py-1.5 w-full">
-                                    <option value="all">Show All</option>
-                                    <option value="ready">Processed</option>
-                                    <option value="unprocessed">Pending</option>
-                                    <option value="error">Error</option>
-                                </select>
+                                 <label for="filter-select" class="text-sm font-medium whitespace-nowrap">Filter by:</label>
+                                 <select id="filter-select" class="custom-input text-sm py-1.5 w-full">
+                                     <option value="all">Show All</option>
+                                     <option value="ready">Processed</option>
+                                     <option value="unprocessed">Pending</option>
+                                     <option value="error">Error</option>
+                                 </select>
                              </div>
                              <div id="bulk-edit-panel" class="hidden flex-1 min-w-[200px]">
-                                <button id="bulk-edit-btn" class="w-full btn btn-secondary btn-sm"><i class="fas fa-edit mr-2"></i>Bulk Edit Selected</button>
+                                 <button id="bulk-edit-btn" class="w-full btn btn-secondary btn-sm"><i class="fas fa-edit mr-2"></i>Bulk Edit Selected</button>
                              </div>
                             <div class="flex items-center gap-4 w-full sm:w-auto">
                                 <div class="flex items-center gap-2 flex-1">
@@ -354,9 +361,9 @@
                                     </select>
                                 </div>
                                  <div class="flex items-center border border-slate-200 dark:border-slate-700 rounded-lg">
-                                    <button id="list-view-btn" class="view-btn btn-secondary p-2 rounded-l-md active"><i class="fas fa-list"></i></button>
-                                    <button id="grid-view-btn" class="view-btn btn-secondary p-2 rounded-r-md"><i class="fas fa-th-large"></i></button>
-                                </div>
+                                     <button id="list-view-btn" class="view-btn btn-secondary p-2 rounded-l-md active"><i class="fas fa-list"></i></button>
+                                     <button id="grid-view-btn" class="view-btn btn-secondary p-2 rounded-r-md"><i class="fas fa-th-large"></i></button>
+                                 </div>
                             </div>
                         </div>
 
@@ -547,7 +554,7 @@
                     <input type="text" class="title-input w-full custom-input text-sm pr-10" data-lang-placeholder="title_placeholder">
                     <button class="copy-btn absolute top-8 right-2 text-slate-400 hover:text-cyan-500 p-1"><i class="fas fa-copy"></i></button>
                 </div>
-                <div class="relative grid-view-hidden">
+                <div class="relative">
                     <label class="block text-sm font-bold mb-1.5 text-slate-800 dark:text-slate-200" data-lang="description">📝 Description</label>
                     <textarea rows="2" class="description-input w-full custom-input text-sm resize-none pr-10" data-lang-placeholder="description_placeholder"></textarea>
                     <button class="copy-btn absolute top-8 right-2 text-slate-400 hover:text-cyan-500 p-1"><i class="fas fa-copy"></i></button>
@@ -557,8 +564,8 @@
                         <label class="block text-sm font-bold text-slate-800 dark:text-slate-200" data-lang="keywords">🏷️ Keywords</label>
                         <span class="keyword-count text-xs px-2 py-1 rounded-lg bg-slate-200 dark:bg-slate-700 font-semibold">0 keywords</span>
                     </div>
-                    <textarea rows="3" class="keywords-input w-full custom-input text-sm resize-none pr-10 grid-view-hidden" data-lang-placeholder="keywords_placeholder"></textarea>
-                    <button class="copy-btn absolute top-8 right-2 text-slate-400 hover:text-cyan-500 p-1 grid-view-hidden"><i class="fas fa-copy"></i></button>
+                    <textarea rows="3" class="keywords-input w-full custom-input text-sm resize-none pr-10" data-lang-placeholder="keywords_placeholder"></textarea>
+                    <button class="copy-btn absolute top-8 right-2 text-slate-400 hover:text-cyan-500 p-1"><i class="fas fa-copy"></i></button>
                 </div>
                 <div class="flex flex-wrap gap-2 pt-2">
                     <div class="relative flex-1 min-w-[120px]">
@@ -664,8 +671,23 @@
         function _(key) { return LANGUAGES[settings.language]?.[key] || LANGUAGES['English'][key] || key; }
 
         const dom = {
-            app: document.getElementById('app'), galleryContainer: document.getElementById('gallery-container'), galleryPlaceholder: document.getElementById('gallery-placeholder'), imageGallery: document.getElementById('image-gallery'), imageCardTemplate: document.getElementById('image-card-template'), addFilesBtn: document.getElementById('add-files-btn'), addFolderBtn: document.getElementById('add-folder-btn'), fileInput: document.getElementById('file-input'), folderInput: document.getElementById('folder-input'), clearAllBtn: document.getElementById('clear-all-btn'), batchAllBtn: document.getElementById('batch-all-btn'), stopBatchBtn: document.getElementById('stop-batch-btn'), exportCsvBtn: document.getElementById('export-csv-btn'), statsTotal: document.getElementById('stats-total'), statsProcessed: document.getElementById('stats-processed'), statsPending: document.getElementById('stats-pending'), statsErrors: document.getElementById('stats-errors'), progressBar: document.getElementById('progress-bar'), progressLabel: document.getElementById('progress-label'), settingsBtn: document.getElementById('settings-btn'), settingsModal: document.getElementById('settings-modal'), closeSettingsBtn: document.getElementById('close-settings-btn'), saveSettingsBtn: document.getElementById('save-settings-btn'), modelSelect: document.getElementById('model-select'), delayInput: document.getElementById('delay-input'), translateModal: document.getElementById('translate-modal'), closeTranslateBtn: document.getElementById('close-translate-btn'), translateLanguageList: document.getElementById('translate-language-list'), cleanKeywordsModal: document.getElementById('clean-keywords-modal'), cancelCleanBtn: document.getElementById('cancel-clean-btn'), applyCleanBtn: document.getElementById('apply-clean-btn'), promptStyleSelectModal: document.getElementById('prompt-style-select-modal'), themeToggle: document.getElementById('theme-toggle'), languageSelect: document.getElementById('language-select'), toastContainer: document.getElementById('toast-container'), filterSelect: document.getElementById('filter-select'), sortSelect: document.getElementById('sort-select'), listViewBtn: document.getElementById('list-view-btn'), gridViewBtn: document.getElementById('grid-view-btn'), confirmModal: document.getElementById('confirm-modal'), confirmTitle: document.getElementById('confirm-title'), confirmMessage: document.getElementById('confirm-message'), confirmOkBtn: document.getElementById('confirm-ok-btn'), confirmCancelBtn: document.getElementById('confirm-cancel-btn'), keywordToolsBtn: document.getElementById('keyword-tools-btn'), keywordToolsModal: document.getElementById('keyword-tools-modal'), closeKeywordToolsBtn: document.getElementById('close-keyword-tools-btn'), saveKeywordToolsBtn: document.getElementById('save-keyword-tools-btn'), alwaysIncludeKeywords: document.getElementById('always-include-keywords'), blacklistKeywords: document.getElementById('blacklist-keywords'), savePresetBtn: document.getElementById('save-preset-btn'), presetNameInput: document.getElementById('preset-name-input'), presetSelect: document.getElementById('preset-select'), deletePresetBtn: document.getElementById('delete-preset-btn'), bulkEditPanel: document.getElementById('bulk-edit-panel'), bulkEditBtn: document.getElementById('bulk-edit-btn'),
+            app: document.getElementById('app'), galleryContainer: document.getElementById('gallery-container'), galleryPlaceholder: document.getElementById('gallery-placeholder'), imageGallery: document.getElementById('image-gallery'), imageCardTemplate: document.getElementById('image-card-template'), addFilesBtn: document.getElementById('add-files-btn'), addFolderBtn: document.getElementById('add-folder-btn'), fileInput: document.getElementById('file-input'), folderInput: document.getElementById('folder-input'), clearAllBtn: document.getElementById('clear-all-btn'), batchAllBtn: document.getElementById('batch-all-btn'), stopBatchBtn: document.getElementById('stop-batch-btn'), exportCsvBtn: document.getElementById('export-csv-btn'), statsTotal: document.getElementById('stats-total'), statsProcessed: document.getElementById('stats-processed'), statsPending: document.getElementById('stats-pending'), statsErrors: document.getElementById('stats-errors'), progressBar: document.getElementById('progress-bar'), progressLabel: document.getElementById('progress-label'), settingsBtn: document.getElementById('settings-btn'), settingsModal: document.getElementById('settings-modal'), closeSettingsBtn: document.getElementById('close-settings-btn'), saveSettingsBtn: document.getElementById('save-settings-btn'), modelSelect: document.getElementById('model-select'), delayInput: document.getElementById('delay-input'), translateModal: document.getElementById('translate-modal'), closeTranslateBtn: document.getElementById('close-translate-btn'), translateLanguageList: document.getElementById('translate-language-list'), cleanKeywordsModal: document.getElementById('clean-keywords-modal'), cancelCleanBtn: document.getElementById('cancel-clean-btn'), applyCleanBtn: document.getElementById('apply-clean-btn'), promptStyleSelectModal: document.getElementById('prompt-style-select-modal'), themeToggle: document.getElementById('theme-toggle'), languageSelect: document.getElementById('language-select'), toastContainer: document.getElementById('toast-container'), filterSelect: document.getElementById('filter-select'), sortSelect: document.getElementById('sort-select'), listViewBtn: document.getElementById('list-view-btn'), gridViewBtn: document.getElementById('grid-view-btn'), confirmModal: document.getElementById('confirm-modal'), confirmTitle: document.getElementById('confirm-title'), confirmMessage: document.getElementById('confirm-message'), confirmOkBtn: document.getElementById('confirm-ok-btn'), confirmCancelBtn: document.getElementById('confirm-cancel-btn'), keywordToolsBtn: document.getElementById('keyword-tools-btn'), keywordToolsModal: document.getElementById('keyword-tools-modal'), closeKeywordToolsBtn: document.getElementById('close-keyword-tools-btn'), saveKeywordToolsBtn: document.getElementById('save-keyword-tools-btn'), alwaysIncludeKeywords: document.getElementById('always-include-keywords'), blacklistKeywords: document.getElementById('blacklist-keywords'), savePresetBtn: document.getElementById('save-preset-btn'), presetNameInput: document.getElementById('preset-name-input'), presetSelect: document.getElementById('preset-select'), deletePresetBtn: document.getElementById('delete-preset-btn'), bulkEditPanel: document.getElementById('bulk-edit-panel'), bulkEditBtn: document.getElementById('bulk-edit-btn'), sidebar: document.getElementById('sidebar'), mobileMenuBtn: document.getElementById('mobile-menu-btn'), mobileMenuOverlay: document.getElementById('mobile-menu-overlay'),
         };
+        
+        // --- Mobile Menu ---
+        const toggleMobileMenu = (show) => {
+            if (show) {
+                dom.sidebar.classList.remove('-translate-x-full');
+                dom.sidebar.classList.add('translate-x-0');
+                dom.mobileMenuOverlay.classList.remove('hidden');
+            } else {
+                dom.sidebar.classList.add('-translate-x-full');
+                dom.sidebar.classList.remove('translate-x-0');
+                dom.mobileMenuOverlay.classList.add('hidden');
+            }
+        };
+        dom.mobileMenuBtn.addEventListener('click', () => toggleMobileMenu(true));
+        dom.mobileMenuOverlay.addEventListener('click', () => toggleMobileMenu(false));
         
         // --- Custom Confirm Modal ---
         let confirmCallback = null;
@@ -709,23 +731,23 @@
         const loadPresets = () => {
              const savedPresets = localStorage.getItem('autoMetaPixPresets');
              if (savedPresets) {
-                presets = JSON.parse(savedPresets);
+                 presets = JSON.parse(savedPresets);
              }
              dom.presetSelect.innerHTML = '<option>Load a preset...</option>';
              for (const presetName in presets) {
-                const option = document.createElement('option');
-                option.value = presetName;
-                option.textContent = presetName;
-                dom.presetSelect.appendChild(option);
+                 const option = document.createElement('option');
+                 option.value = presetName;
+                 option.textContent = presetName;
+                 dom.presetSelect.appendChild(option);
              }
         }
         
         const loadKeywordSettings = () => {
              const savedKeywords = localStorage.getItem('autoMetaPixKeywordSettings');
              if (savedKeywords) {
-                 keywordSettings = JSON.parse(savedKeywords);
-                 dom.alwaysIncludeKeywords.value = keywordSettings.alwaysInclude.join(', ');
-                 dom.blacklistKeywords.value = keywordSettings.blacklist.join(', ');
+                  keywordSettings = JSON.parse(savedKeywords);
+                  dom.alwaysIncludeKeywords.value = keywordSettings.alwaysInclude.join(', ');
+                  dom.blacklistKeywords.value = keywordSettings.blacklist.join(', ');
              }
         }
 
@@ -763,7 +785,7 @@
                     case 'name_asc': return objA.name.localeCompare(objB.name);
                     case 'name_desc': return objB.name.localeCompare(objA.name);
                     case 'date_asc': return objA.addedTimestamp - objB.addedTimestamp;
-                    case 'date_desc': return objB.addedTimestamp - objA.addedTimestamp;
+                    case 'date_desc': return objB.addedTimestamp - a.addedTimestamp;
                     default: return 0;
                 }
             });
@@ -799,7 +821,12 @@
                 reader.readAsDataURL(file);
                 addedCount++;
             }
-            if(addedCount > 0) showToast(`📁 ${addedCount} file(s) added successfully!`, 'success');
+            if(addedCount > 0) {
+                showToast(`📁 ${addedCount} file(s) added successfully!`, 'success');
+                if (window.innerWidth < 1024) { // lg breakpoint
+                    toggleMobileMenu(false);
+                }
+            }
         };
 
         const createImageCard = (imageObject) => {
@@ -989,13 +1016,13 @@
                 try {
                     let prompt, payload;
                      if (task.type === 'generate') {
-                        prompt = getGenerationPrompt(task.options);
-                        const base64Image = imageObject.dataURL.split(',')[1];
-                        payload = { contents: [{ parts: [{ text: prompt }, { inlineData: { mimeType: imageObject.file.type, data: base64Image } }] }], generationConfig: { response_mime_type: "application/json" } };
-                    } else if (task.type === 'translate') {
-                        prompt = getTranslationPrompt(imageObject.metadata, task.language);
-                        payload = { contents: [{ parts: [{ text: prompt }] }], generationConfig: { response_mime_type: "application/json" } };
-                    }
+                         prompt = getGenerationPrompt(task.options);
+                         const base64Image = imageObject.dataURL.split(',')[1];
+                         payload = { contents: [{ parts: [{ text: prompt }, { inlineData: { mimeType: imageObject.file.type, data: base64Image } }] }], generationConfig: { response_mime_type: "application/json" } };
+                     } else if (task.type === 'translate') {
+                         prompt = getTranslationPrompt(imageObject.metadata, task.language);
+                         payload = { contents: [{ parts: [{ text: prompt }] }], generationConfig: { response_mime_type: "application/json" } };
+                     }
 
                     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${settings.model}:generateContent?key=${apiKey}`, { 
                         method: 'POST', 
@@ -1039,15 +1066,15 @@
 
                     console.error(`Attempt ${retryCount + 1} failed for ${imageObject.name}:`, error);
                      if (retryCount < 2) { // Max 3 retries (0, 1, 2)
-                        const delay = Math.pow(2, retryCount) * 1000; // 1s, 2s, 4s
-                        showToast(`API call failed, retrying in ${delay / 1000}s...`, 'info');
-                        await new Promise(resolve => setTimeout(resolve, delay));
-                        return executeApiCall(retryCount + 1);
-                    } else {
-                        showToast(`❌ Failed to process ${imageObject.name}: ${error.message}`, 'error');
-                        updateCardStatus(task.id, 'error');
-                        return false; // Failure
-                    }
+                         const delay = Math.pow(2, retryCount) * 1000; // 1s, 2s, 4s
+                         showToast(`API call failed, retrying in ${delay / 1000}s...`, 'info');
+                         await new Promise(resolve => setTimeout(resolve, delay));
+                         return executeApiCall(retryCount + 1);
+                     } else {
+                         showToast(`❌ Failed to process ${imageObject.name}: ${error.message}`, 'error');
+                         updateCardStatus(task.id, 'error');
+                         return false; // Failure
+                     }
                 }
             };
 
@@ -1268,12 +1295,12 @@
             const presetName = dom.presetSelect.value;
             if (presets[presetName]) {
                  showConfirm('Delete Preset?', `Are you sure you want to delete the '${presetName}' preset?`, (confirmed) => {
-                    if (confirmed) {
-                        delete presets[presetName];
-                        localStorage.setItem('autoMetaPixPresets', JSON.stringify(presets));
-                        loadPresets();
-                        showToast(`🗑️ Preset '${presetName}' deleted!`, 'info');
-                    }
+                     if (confirmed) {
+                         delete presets[presetName];
+                         localStorage.setItem('autoMetaPixPresets', JSON.stringify(presets));
+                         loadPresets();
+                         showToast(`🗑️ Preset '${presetName}' deleted!`, 'info');
+                     }
                  });
             }
         });
