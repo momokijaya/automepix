@@ -234,7 +234,12 @@
             gap: 1.5rem;
         }
         .grid-view .grid-view-hidden {
-            display: none;
+            display: block;
+        }
+        @media (min-width: 640px) {
+            .grid-view .grid-view-hidden {
+                display: none;
+            }
         }
 
 
@@ -786,9 +791,10 @@
                 reader.onload = e => {
                     const imageObject = { file, id: file.name + '-' + file.lastModified, name: file.name, size: file.size, dataURL: e.target.result, metadata: { title: '', description: '', keywords: '' }, status: 'unprocessed', addedTimestamp: Date.now() };
                     imageObjects.set(imageObject.id, imageObject);
-                    createImageCard(imageObject);
+                    const card = createImageCard(imageObject);
                     updateStats();
                     applyFilterAndSort();
+                    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 };
                 reader.readAsDataURL(file);
                 addedCount++;
@@ -868,6 +874,7 @@
 
             dom.imageGallery.appendChild(card);
             retranslateUI();
+            return card;
         };
 
         const updateCardStatus = (id, status, metadata = null) => {
@@ -1297,5 +1304,3 @@
     </script>
 </body>
 </html>
-
-
