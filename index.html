@@ -371,10 +371,10 @@
                                         <option value="name_desc">Name (Z-A)</option>
                                     </select>
                                 </div>
-                                <div class="flex items-center border border-slate-200 dark:border-slate-700 rounded-lg">
-                                    <button id="list-view-btn" class="view-btn btn-secondary p-2 rounded-l-md active"><i class="fas fa-list"></i></button>
-                                    <button id="grid-view-btn" class="view-btn btn-secondary p-2 rounded-r-md"><i class="fas fa-th-large"></i></button>
-                                </div>
+                                 <div class="flex items-center border border-slate-200 dark:border-slate-700 rounded-lg">
+                                     <button id="list-view-btn" class="view-btn btn-secondary p-2 rounded-l-md active"><i class="fas fa-list"></i></button>
+                                     <button id="grid-view-btn" class="view-btn btn-secondary p-2 rounded-r-md"><i class="fas fa-th-large"></i></button>
+                                 </div>
                             </div>
                         </div>
 
@@ -603,8 +603,8 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // --- REMOVED API_KEYS ARRAY ---
-        // The API keys are now handled by the Netlify Function.
+        let apiKeyIndex = 0;
+        const API_ENDPOINT = '/.netlify/functions/gemini-api';
 
         let settings = { model: 'gemini-2.0-flash', delay: 0, promptStyle: 'microstock', theme: 'dark', language: 'English' };
         let imageObjects = new Map();
@@ -968,45 +968,51 @@
             updateProgress(progressPercentage, `Processing: ${imageObject.name}`);
             updateCardStatus(task.id, 'processing');
             updateStats();
-            
-            // The API key check is removed from here.
 
             const executeApiCall = async (retryCount = 0) => {
-                // The API key rotation is removed from here.
                 try {
-                    let prompt, apiPayload;
+                    let payload;
                     if (task.type === 'generate') {
-                        prompt = getGenerationPrompt(task.options);
+                        const prompt = getGenerationPrompt(task.options);
                         const base64Image = imageObject.dataURL.split(',')[1];
-                        apiPayload = { contents: [{ parts: [{ text: prompt }, { inlineData: { mimeType: imageObject.file.type, data: base64Image } }] }], generationConfig: { response_mime_type: "application/json" } };
+                        payload = { 
+                            contents: [{ 
+                                parts: [
+                                    { text: prompt }, 
+                                    { inlineData: { mimeType: imageObject.file.type, data: base64Image } }
+                                ] 
+                            }], 
+                            generationConfig: { response_mime_type: "application/json" } 
+                        };
                     } else if (task.type === 'translate') {
-                        prompt = getTranslationPrompt(imageObject.metadata, task.language);
-                        apiPayload = { contents: [{ parts: [{ text: prompt }] }], generationConfig: { response_mime_type: "application/json" } };
+                        const prompt = getTranslationPrompt(imageObject.metadata, task.language);
+                        payload = { 
+                            contents: [{ parts: [{ text: prompt }] }], 
+                            generationConfig: { response_mime_type: "application/json" } 
+                        };
                     }
 
-                    // --- MODIFIED FETCH CALL ---
-                    // Call our own Netlify Function instead of Google directly.
-                    const response = await fetch(`/.netlify/functions/gemini-proxy`, { 
+                    const response = await fetch(API_ENDPOINT, { 
                         method: 'POST', 
                         headers: { 'Content-Type': 'application/json' }, 
-                        body: JSON.stringify({ // Send the model and payload to our function
+                        body: JSON.stringify({
+                            payload: payload,
                             model: settings.model,
-                            payload: apiPayload
+                            apiKeyIndex: apiKeyIndex
                         }),
                         signal: currentBatchController ? currentBatchController.signal : null
                     });
-                    
+
                     if (!response.ok) { 
                         const errorText = await response.text();
-                         try {
+                        try {
                             const errorData = JSON.parse(errorText);
-                            throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
-                         } catch(e) {
+                            throw new Error(errorData.error?.message || errorData.message || `HTTP error! status: ${response.status}`);
+                        } catch(e) {
                             throw new Error(errorText || `HTTP error! status: ${response.status}`);
-                         }
+                        }
                     }
                     
-                    // The response from our function is the direct response from Google.
                     const result = await response.json();
                     if (!result.candidates || !result.candidates[0].content || !result.candidates[0].content.parts[0].text) {
                         throw new Error("Invalid response structure from API.");
@@ -1023,6 +1029,10 @@
                     updateCardStatus(task.id, 'ready', metadata);
                     if (task.type === 'translate') showToast(`🌐 Translation to ${task.language} successful!`, 'success');
                     else showToast(`✨ Metadata generated for ${imageObject.name}`, 'success');
+                    
+                    // Increment API key index for next request
+                    apiKeyIndex++;
+                    
                     return true; // Success
                 } catch (error) {
                     if (error.name === 'AbortError') {
@@ -1032,16 +1042,18 @@
                     }
 
                     console.error(`Attempt ${retryCount + 1} failed for ${imageObject.name}:`, error);
-                     if (retryCount < 2) { // Max 3 retries (0, 1, 2)
-                         const delay = Math.pow(2, retryCount) * 1000; // 1s, 2s, 4s
-                         showToast(`API call failed, retrying in ${delay / 1000}s...`, 'info');
-                         await new Promise(resolve => setTimeout(resolve, delay));
-                         return executeApiCall(retryCount + 1);
-                     } else {
-                         showToast(`❌ Failed to process ${imageObject.name}: ${error.message}`, 'error');
-                         updateCardStatus(task.id, 'error');
-                         return false; // Failure
-                     }
+                    if (retryCount < 2) { // Max 3 retries (0, 1, 2)
+                        const delay = Math.pow(2, retryCount) * 1000; // 1s, 2s, 4s
+                        showToast(`API call failed, retrying in ${delay / 1000}s...`, 'info');
+                        apiKeyIndex++; // Try next API key on retry
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        return executeApiCall(retryCount + 1);
+                    } else {
+                        showToast(`❌ Failed to process ${imageObject.name}: ${error.message}`, 'error');
+                        updateCardStatus(task.id, 'error');
+                        apiKeyIndex++; // Move to next API key even on failure
+                        return false; // Failure
+                    }
                 }
             };
 
@@ -1051,7 +1063,7 @@
             isProcessing = false;
             
             if (taskQueue.length > 0) {
-                 setTimeout(processQueue, settings.delay * 1000);
+                setTimeout(processQueue, settings.delay * 1000);
             } else if (totalTasksInBatch > 0) {
                 // Last item was processed, call again to trigger completion logic
                 setTimeout(processQueue, 100); 
@@ -1266,14 +1278,14 @@
         dom.deletePresetBtn.addEventListener('click', () => {
             const presetName = dom.presetSelect.value;
             if (presets[presetName]) {
-                 showConfirm('Delete Preset?', `Are you sure you want to delete the '${presetName}' preset?`, (confirmed) => {
-                      if (confirmed) {
-                          delete presets[presetName];
-                          localStorage.setItem('autoMetaPixPresets', JSON.stringify(presets));
-                          loadPresets();
-                          showToast(`🗑️ Preset '${presetName}' deleted!`, 'info');
-                      }
-                 });
+                showConfirm('Delete Preset?', `Are you sure you want to delete the '${presetName}' preset?`, (confirmed) => {
+                    if (confirmed) {
+                        delete presets[presetName];
+                        localStorage.setItem('autoMetaPixPresets', JSON.stringify(presets));
+                        loadPresets();
+                        showToast(`🗑️ Preset '${presetName}' deleted!`, 'info');
+                    }
+                });
             }
         });
 
