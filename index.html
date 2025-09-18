@@ -613,7 +613,7 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        
+       
         let settings = { model: 'gemini-2.0-flash', delay: 0, promptStyle: 'microstock', theme: 'dark', language: 'English' };
         let imageObjects = new Map();
         let taskQueue = [];
@@ -753,7 +753,7 @@
                     case 'name_asc': return objA.name.localeCompare(objB.name);
                     case 'name_desc': return objB.name.localeCompare(objA.name);
                     case 'date_asc': return objA.addedTimestamp - objB.addedTimestamp;
-                    case 'date_desc': return objB.addedTimestamp - a.addedTimestamp;
+                    case 'date_desc': return objB.addedTimestamp - objA.addedTimestamp;
                     default: return 0;
                 }
             });
@@ -999,9 +999,8 @@
                          };
                      }
 
-                    // FIXED: Changed RegExp literal /.../ to a string literal '...'.
-                    // This was causing the fetch URL to be invalid.
-                    const response = await fetch('/.netlify/functions/generate-metadata', { 
+                    // PERUBAHAN PENTING: Panggil Netlify Function, bukan Google API.
+                    const response = await fetch(`/.netlify/functions/generate-metadata`, { 
                         method: 'POST', 
                         headers: { 'Content-Type': 'application/json' }, 
                         body: JSON.stringify(serverPayload),
@@ -1018,6 +1017,7 @@
                         }
                     }
                     
+                    // Netlify function akan meneruskan respons dari Google, jadi strukturnya sama.
                     const result = await response.json();
                     
                     if (!result.candidates || !result.candidates[0].content || !result.candidates[0].content.parts[0].text) {
