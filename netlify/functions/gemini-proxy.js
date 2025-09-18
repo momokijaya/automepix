@@ -1,66 +1,94 @@
-// This function acts as a secure proxy to the Google Gemini API.
-// It reads your API keys from Netlify environment variables,
-// so you don't have to expose them in the frontend HTML file.
+// netlify/functions/gemini-api.js
+exports.handler = async (event, context) => {
+  // Set CORS headers
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  };
 
-exports.handler = async (event) => {
-  // Only allow POST requests
+  // Handle preflight requests
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers,
+      body: ''
+    };
+  }
+
   if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
+    return {
+      statusCode: 405,
+      headers,
+      body: JSON.stringify({ error: 'Method not allowed' })
+    };
+  }
+
+  // API keys - tambahkan sebagai environment variables di Netlify
+  const API_KEYS = [
+    process.env.GEMINI_API_KEY_1,
+    process.env.GEMINI_API_KEY_2,
+    process.env.GEMINI_API_KEY_3,
+    // Tambahkan lebih banyak keys sesuai kebutuhan
+  ].filter(Boolean); // Remove undefined keys
+
+  if (API_KEYS.length === 0) {
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ error: 'No API keys configured' })
+    };
   }
 
   try {
-    // Get the API keys from the environment variables you set in Netlify.
-    // The keys should be stored as a single string, separated by commas.
-    const apiKeyString = process.env.GEMINI_API_KEYS;
-    if (!apiKeyString) {
-      throw new Error('GEMINI_API_KEYS environment variable not set.');
-    }
-    const apiKeys = apiKeyString.split(',').map(key => key.trim());
-    if (apiKeys.length === 0) {
-        throw new Error('GEMINI_API_KEYS is empty or invalid.');
-    }
-
-    // Randomly pick one key from the list to distribute the load.
-    const apiKey = apiKeys[Math.floor(Math.random() * apiKeys.length)];
-
-    // Get the model and payload sent from the frontend.
-    const { model, payload } = JSON.parse(event.body);
-    if (!model || !payload) {
-        return { statusCode: 400, body: 'Missing model or payload in request body.' };
+    const { payload, model, apiKeyIndex = 0 } = JSON.parse(event.body);
+    
+    if (!payload || !model) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: 'Missing payload or model' })
+      };
     }
 
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
-
-    if (!response.ok) {
-      const errorBody = await response.text();
-      console.error('Google API Error:', errorBody);
-      // Pass the error from Google back to the client for better debugging
-      return { statusCode: response.status, body: JSON.stringify({ error: `Google API Error: ${errorBody}` }) };
-    }
+    const apiKey = API_KEYS[apiKeyIndex % API_KEYS.length];
+    
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      }
+    );
 
     const data = await response.json();
 
-    // Return the successful response from Google back to the frontend.
+    if (!response.ok) {
+      return {
+        statusCode: response.status,
+        headers,
+        body: JSON.stringify(data)
+      };
+    }
+
     return {
       statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
+      headers,
+      body: JSON.stringify(data)
     };
+
   } catch (error) {
-    console.error('Proxy Function Error:', error);
+    console.error('Function error:', error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: error.message }),
+      headers,
+      body: JSON.stringify({ 
+        error: 'Internal server error',
+        message: error.message 
+      })
     };
   }
 };
