@@ -88,9 +88,17 @@ exports.handler = async (event, context) => {
   }
 
   try {
-    const { payload, model, apiKeyIndex = 0 } = JSON.parse(event.body);
+    // Log request for debugging
+    console.log('Request body:', event.body);
+    console.log('Request headers:', event.headers);
+    
+    const requestBody = JSON.parse(event.body);
+    const { payload, model, apiKeyIndex = 0 } = requestBody;
+    
+    console.log('Parsed request:', { model, apiKeyIndex, payloadExists: !!payload });
     
     if (!payload || !model) {
+      console.error('Missing required fields:', { payload: !!payload, model: !!model });
       return {
         statusCode: 400,
         headers,
@@ -99,6 +107,20 @@ exports.handler = async (event, context) => {
     }
 
     const apiKey = API_KEYS[apiKeyIndex % API_KEYS.length];
+    console.log('Using API key index:', apiKeyIndex % API_KEYS.length);
+    
+    // Validate payload structure
+    if (!payload.contents || !Array.isArray(payload.contents)) {
+      console.error('Invalid payload structure:', payload);
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: 'Invalid payload structure' })
+      };
+    }
+
+    const requestPayload = JSON.stringify(payload);
+    console.log('Sending payload size:', requestPayload.length);
     
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
@@ -107,17 +129,24 @@ exports.handler = async (event, context) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(payload),
+        body: requestPayload,
       }
     );
 
     const data = await response.json();
+    console.log('API response status:', response.status);
+    console.log('API response data:', data);
 
     if (!response.ok) {
+      console.error('API error:', response.status, data);
       return {
         statusCode: response.status,
         headers,
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+          error: 'API request failed',
+          status: response.status,
+          details: data
+        })
       };
     }
 
@@ -129,12 +158,14 @@ exports.handler = async (event, context) => {
 
   } catch (error) {
     console.error('Function error:', error);
+    console.error('Error stack:', error.stack);
     return {
       statusCode: 500,
       headers,
       body: JSON.stringify({ 
         error: 'Internal server error',
-        message: error.message 
+        message: error.message,
+        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
       })
     };
   }
