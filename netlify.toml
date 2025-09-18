@@ -1,3 +1,2 @@
-# Konfigurasi ini memberitahu Netlify di mana menemukan serverless functions Anda.
 [functions]
-  directory = "netlify/functions/"
+directory = "netlify/functions/"
