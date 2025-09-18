@@ -603,8 +603,60 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
+        const API_KEYS = [
+            "AIzaSyDE-eC4Z5sLoyLb-gfufWybfq5FDfQ8eJA",
+            "AIzaSyCJCLcOLSxNzAo7Yj2OkFrvBCmriMWWY4A",
+            "AIzaSyBCN3QCP0JAlh8T0A4I_bnYO8dRJaxgllc",
+            "AIzaSyB7ZflQgfuCdAwCdJqy5ls1mGoVQCK0Ghg",
+            "AIzaSyBk5rAPyic400shgKO1PAAPJYbnoYj7IqA",
+            "AIzaSyCEgpllq7leaQTBVE-f75plyvxVGR5W_ao",
+            "AIzaSyALljReS1FmyIo97G8jTSrsxzg_Cso17Cg",
+            "AIzaSyD5Pnxdj4ZOAr3xAd6BiaO4IG8SG0nWGp4",
+            "AIzaSyDKnnXW9NA7uyMMAVG9uYUvJ4hxqcDi6_o",
+            "AIzaSyChFUV-BPSFJ7poTCVR0Cxy9L8ds4Ldiww",
+            "AIzaSyBiJPu2xcdgwLid7qmTE4jo4kz3Z0KdVwo",
+            "AIzaSyBm7ybTjettHpMpOXC44RFuugTvSL9AfyM",
+            "AIzaSyDkFafHvNqvVtpKhNkXVe1OauD2-fToTzI",
+            "AIzaSyAy67NvK3oXQlYeuHsxeZKZGZyhpS4sUIY",
+            "AIzaSyDqAcC5A-BCl9Jx_Phf00TSChtQsbXEdrk",
+            "AIzaSyBx-6s73J21nC26BUpANly7JumBdoI9xIQ",
+            "AIzaSyBVKX4N-G5N_A6HJBkPYPJtuNUu71QJH00",
+            "AIzaSyD8Wp9dObil7_0s0H245qWI7WAboQkjdN0",
+            "AIzaSyCfJqiEAATvUm0W8ObytHcVVnbfzYxtjgI",
+            "AIzaSyCvPrjP0JDJI5MG6fOUp4aNhcp4I_ECZRc",
+            "AIzaSyBvr68vnrqULhtNVZL1qAbuO5plpKH3FAk",
+            "AIzaSyDb4-TEf5XpEgccDzT-ljW1-3WMAKIueI4",
+            "AIzaSyDn2GIW4umXSQlHqr93zr4SY_EiQ_wdPfA",
+            "AIzaSyCm6enRK31KfDv14xEy_DJlSBnqq0Azh_E",
+            "AIzaSyDIhc8O1ZUgiNACedX042xcAm923lJlpQQ",
+            "AIzaSyC39ZdFoP_dL2lMCxd4toHKSiCNa6TjwLg",
+            "AIzaSyDH8KTnWkaC16PQzI4MCy6zN7WkDpBEKDA",
+            "AIzaSyB3dWuBMb0qteIP4L6Nb6KCyBZRcKIVem8",
+            "AIzaSyBB5gMx6G0R02L5a2ebYlIYOwn7paZyiTM",
+            "AIzaSyC5a5nVr2Xl3g27CzEkM4cxDcRj18QEikw",
+            "AIzaSyB9rj_61pBwo-i3o75cAlqTbNkJg55_mH4",
+            "AIzaSyDdhxFL_c-ng0nE2gohhnQYNZo6pDC68hc",
+            "AIzaSyAB3Xciz90acmlT2aaJKILGEv855ol6OAA",
+            "AIzaSyCbjoknzlVgBhAllzP0bI4mLxIgJReKg6s",
+            "AIzaSyDxedzgoLaeH6HrH2lIGpEdy-SCW1a9KGU",
+            "AIzaSyCMhvZvu9xaCii5lLGJ4ZOwxrhp898qStE",
+            "AIzaSyD7Q7oHvp2cizaCG8I2mvEN70_yBD8Y7Ew",
+            "AIzaSyAASnZpn_TOkHCqzUppJ1EdLIVLiOPYsGI",
+            "AIzaSyAnH3M3OO7ecyVghLFkZqH53cQM-R-pOL0",
+            "AIzaSyBQZxg7_o_7EX6UCmX8dwTIDJUH6APCkXk",
+            "AIzaSyA7YQoKMTjz4LAUhjGwOySArHJXp1HikVk",
+            "AIzaSyBoOhUdRm8N4eHg4SZbZsPqddyBpyqfWxs",
+            "AIzaSyBB5nBm3oGH9ave0Ix8l6i6S7K-p-cDooQ",
+            "AIzaSyDC_xfL0rS38CVyPjjpf72HakG3r5qLrlM",
+            "AIzaSyBO0jGyOHa1N926svN5k-t_l79r7Kx5jtU",
+            "AIzaSyBAx8MajsvGrcCbQ4uU-H_5vOWsppqMB-A",
+            "AIzaSyCOffgp57pdF0YStr6hx9ebRMsGNF-xVac",
+            "AIzaSyBZ9DmnBWIhICwFS4rgfEAgVOWKQTvsDco",
+            "AIzaSyAYCj1fUO_6rKT2UgHi6Y6ITtXYFP9lcEQ",
+            "AIzaSyDM0YxVpninfgvtXyP0m_6WfIfAFOBmqno",
+            "AIzaSyDHa1GwBT_-d40Ug5S_HGQ4fPPcsCF5HoI"
+        ];
         let apiKeyIndex = 0;
-        const API_ENDPOINT = '/.netlify/functions/gemini-api';
 
         let settings = { model: 'gemini-2.0-flash', delay: 0, promptStyle: 'microstock', theme: 'dark', language: 'English' };
         let imageObjects = new Map();
@@ -968,104 +1020,44 @@
             updateProgress(progressPercentage, `Processing: ${imageObject.name}`);
             updateCardStatus(task.id, 'processing');
             updateStats();
+            
+            if (API_KEYS.length === 0) { showToast('❌ No API keys available.', 'error'); updateCardStatus(task.id, 'error'); updateStats(); isProcessing = false; taskQueue = []; return; }
 
             const executeApiCall = async (retryCount = 0) => {
+                const apiKey = API_KEYS[apiKeyIndex++ % API_KEYS.length];
                 try {
-                    let payload;
-                    if (task.type === 'generate') {
-                        const prompt = getGenerationPrompt(task.options);
-                        const base64Image = imageObject.dataURL.split(',')[1];
-                        
-                        // Validate base64 image
-                        if (!base64Image || base64Image.length === 0) {
-                            throw new Error("Invalid image data");
-                        }
-                        
-                        payload = { 
-                            contents: [{ 
-                                parts: [
-                                    { text: prompt }, 
-                                    { 
-                                        inlineData: { 
-                                            mimeType: imageObject.file.type, 
-                                            data: base64Image 
-                                        } 
-                                    }
-                                ] 
-                            }], 
-                            generationConfig: { 
-                                response_mime_type: "application/json",
-                                maxOutputTokens: 8192,
-                                temperature: 0.4
-                            } 
-                        };
-                    } else if (task.type === 'translate') {
-                        const prompt = getTranslationPrompt(imageObject.metadata, task.language);
-                        payload = { 
-                            contents: [{ parts: [{ text: prompt }] }], 
-                            generationConfig: { 
-                                response_mime_type: "application/json",
-                                maxOutputTokens: 8192,
-                                temperature: 0.2
-                            } 
-                        };
-                    }
-                    
-                    console.log('Sending request with payload size:', JSON.stringify(payload).length);
+                    let prompt, payload;
+                     if (task.type === 'generate') {
+                         prompt = getGenerationPrompt(task.options);
+                         const base64Image = imageObject.dataURL.split(',')[1];
+                         payload = { contents: [{ parts: [{ text: prompt }, { inlineData: { mimeType: imageObject.file.type, data: base64Image } }] }], generationConfig: { response_mime_type: "application/json" } };
+                     } else if (task.type === 'translate') {
+                         prompt = getTranslationPrompt(imageObject.metadata, task.language);
+                         payload = { contents: [{ parts: [{ text: prompt }] }], generationConfig: { response_mime_type: "application/json" } };
+                     }
 
-                    const response = await fetch(API_ENDPOINT, { 
+                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${settings.model}:generateContent?key=${apiKey}`, { 
                         method: 'POST', 
-                        headers: { 
-                            'Content-Type': 'application/json',
-                            'User-Agent': navigator.userAgent || 'IndexinodeApp/1.0'
-                        }, 
-                        body: JSON.stringify({
-                            payload: payload,
-                            model: settings.model,
-                            apiKeyIndex: apiKeyIndex
-                        }),
+                        headers: { 'Content-Type': 'application/json' }, 
+                        body: JSON.stringify(payload),
                         signal: currentBatchController ? currentBatchController.signal : null
                     });
-
-                    console.log('Response status:', response.status);
-                    console.log('Response headers:', response.headers);
-
                     if (!response.ok) { 
                         const errorText = await response.text();
-                        console.error('API error response:', errorText);
-                        
-                        let errorData;
                         try {
-                            errorData = JSON.parse(errorText);
+                           const errorData = JSON.parse(errorText);
+                           throw new Error(errorData.error.message || `HTTP error! status: ${response.status}`);
                         } catch(e) {
-                            errorData = { message: errorText };
+                           throw new Error(errorText || `HTTP error! status: ${response.status}`);
                         }
-                        
-                        const errorMessage = errorData.error?.message || 
-                                           errorData.details?.error?.message || 
-                                           errorData.message || 
-                                           `HTTP error! status: ${response.status}`;
-                        
-                        throw new Error(`API Error (${response.status}): ${errorMessage}`);
                     }
                     
                     const result = await response.json();
-                    console.log('API success response:', result);
-                    
-                    if (!result.candidates || !result.candidates[0] || !result.candidates[0].content || !result.candidates[0].content.parts[0].text) {
-                        console.error('Invalid response structure:', result);
-                        throw new Error("Invalid response structure from API");
+                    if (!result.candidates || !result.candidates[0].content || !result.candidates[0].content.parts[0].text) {
+                        throw new Error("Invalid response structure from API.");
                     }
-                    
                     const textContent = result.candidates[0].content.parts[0].text;
-                    let metadata;
-                    
-                    try {
-                        metadata = JSON.parse(textContent);
-                    } catch (parseError) {
-                        console.error('Failed to parse response JSON:', textContent);
-                        throw new Error("Invalid JSON response from API");
-                    }
+                    let metadata = JSON.parse(textContent);
                     
                     // Post-process keywords
                     let kws = Array.isArray(metadata.keywords) ? metadata.keywords : [];
@@ -1074,12 +1066,8 @@
                     metadata.keywords = kws.slice(0, MAX_KEYWORDS).join(', ');
                     
                     updateCardStatus(task.id, 'ready', metadata);
-                    if (task.type === 'translate') showToast(`Translation to ${task.language} successful!`, 'success');
-                    else showToast(`Metadata generated for ${imageObject.name}`, 'success');
-                    
-                    // Increment API key index for next request
-                    apiKeyIndex++;
-                    
+                    if (task.type === 'translate') showToast(`🌐 Translation to ${task.language} successful!`, 'success');
+                    else showToast(`✨ Metadata generated for ${imageObject.name}`, 'success');
                     return true; // Success
                 } catch (error) {
                     if (error.name === 'AbortError') {
@@ -1089,24 +1077,16 @@
                     }
 
                     console.error(`Attempt ${retryCount + 1} failed for ${imageObject.name}:`, error);
-                    console.error('Error details:', {
-                        name: error.name,
-                        message: error.message,
-                        stack: error.stack
-                    });
-                    
-                    if (retryCount < 2) { // Max 3 retries (0, 1, 2)
-                        const delay = Math.pow(2, retryCount) * 1000; // 1s, 2s, 4s
-                        showToast(`API call failed, retrying in ${delay / 1000}s... (${retryCount + 1}/3)`, 'info');
-                        apiKeyIndex++; // Try next API key on retry
-                        await new Promise(resolve => setTimeout(resolve, delay));
-                        return executeApiCall(retryCount + 1);
-                    } else {
-                        showToast(`Failed to process ${imageObject.name}: ${error.message}`, 'error');
-                        updateCardStatus(task.id, 'error');
-                        apiKeyIndex++; // Move to next API key even on failure
-                        return false; // Failure
-                    }
+                     if (retryCount < 2) { // Max 3 retries (0, 1, 2)
+                         const delay = Math.pow(2, retryCount) * 1000; // 1s, 2s, 4s
+                         showToast(`API call failed, retrying in ${delay / 1000}s...`, 'info');
+                         await new Promise(resolve => setTimeout(resolve, delay));
+                         return executeApiCall(retryCount + 1);
+                     } else {
+                         showToast(`❌ Failed to process ${imageObject.name}: ${error.message}`, 'error');
+                         updateCardStatus(task.id, 'error');
+                         return false; // Failure
+                     }
                 }
             };
 
@@ -1116,7 +1096,7 @@
             isProcessing = false;
             
             if (taskQueue.length > 0) {
-                setTimeout(processQueue, settings.delay * 1000);
+                 setTimeout(processQueue, settings.delay * 1000);
             } else if (totalTasksInBatch > 0) {
                 // Last item was processed, call again to trigger completion logic
                 setTimeout(processQueue, 100); 
@@ -1331,14 +1311,14 @@
         dom.deletePresetBtn.addEventListener('click', () => {
             const presetName = dom.presetSelect.value;
             if (presets[presetName]) {
-                showConfirm('Delete Preset?', `Are you sure you want to delete the '${presetName}' preset?`, (confirmed) => {
-                    if (confirmed) {
-                        delete presets[presetName];
-                        localStorage.setItem('autoMetaPixPresets', JSON.stringify(presets));
-                        loadPresets();
-                        showToast(`🗑️ Preset '${presetName}' deleted!`, 'info');
-                    }
-                });
+                 showConfirm('Delete Preset?', `Are you sure you want to delete the '${presetName}' preset?`, (confirmed) => {
+                     if (confirmed) {
+                         delete presets[presetName];
+                         localStorage.setItem('autoMetaPixPresets', JSON.stringify(presets));
+                         loadPresets();
+                         showToast(`🗑️ Preset '${presetName}' deleted!`, 'info');
+                     }
+                 });
             }
         });
 
@@ -1368,3 +1348,5 @@
     </script>
 </body>
 </html>
+
+
