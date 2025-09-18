@@ -613,7 +613,7 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-       
+        
         let settings = { model: 'gemini-2.0-flash', delay: 0, promptStyle: 'microstock', theme: 'dark', language: 'English' };
         let imageObjects = new Map();
         let taskQueue = [];
@@ -999,8 +999,9 @@
                          };
                      }
 
-                    // PERUBAHAN PENTING: Panggil Netlify Function, bukan Google API.
-                    const response = await fetch(`/.netlify/functions/generate-metadata`, { 
+                    // PERBAIKAN: Menggunakan URL absolut untuk memanggil Netlify Function.
+                    const functionUrl = new URL('/.netlify/functions/generate-metadata', window.location.origin);
+                    const response = await fetch(functionUrl, { 
                         method: 'POST', 
                         headers: { 'Content-Type': 'application/json' }, 
                         body: JSON.stringify(serverPayload),
@@ -1279,12 +1280,12 @@
             const presetName = dom.presetSelect.value;
             if (presets[presetName]) {
                  showConfirm('Delete Preset?', `Are you sure you want to delete the '${presetName}' preset?`, (confirmed) => {
-                     if (confirmed) {
-                         delete presets[presetName];
-                         localStorage.setItem('autoMetaPixPresets', JSON.stringify(presets));
-                         loadPresets();
-                         showToast(`🗑️ Preset '${presetName}' deleted!`, 'info');
-                     }
+                      if (confirmed) {
+                          delete presets[presetName];
+                          localStorage.setItem('autoMetaPixPresets', JSON.stringify(presets));
+                          loadPresets();
+                          showToast(`🗑️ Preset '${presetName}' deleted!`, 'info');
+                      }
                  });
             }
         });
