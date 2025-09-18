@@ -981,16 +981,34 @@
                 try {
                     let serverPayload;
                      if (task.type === 'generate') {
-                         const base64Image = imageObject.dataURL.split(',')[1];
-                         serverPayload = {
-                             type: 'generate',
-                             prompt: getGenerationPrompt(task.options),
-                             model: settings.model,
-                             image: {
-                                 mimeType: imageObject.file.type,
-                                 data: base64Image
-                             }
-                         };
+                        const base64Image = imageObject.dataURL.split(',')[1];
+
+                        // --- START OF FIX for Mobile View Error ---
+                        // Memeriksa MIME type secara defensif, karena bisa tidak handal di beberapa browser mobile.
+                        let mimeType = imageObject.file.type;
+                        if (!mimeType || mimeType === "application/octet-stream") { 
+                            const fileName = imageObject.file.name.toLowerCase();
+                            if (fileName.endsWith('.png')) {
+                                mimeType = 'image/png';
+                            } else if (fileName.endsWith('.jpg') || fileName.endsWith('.jpeg')) {
+                                mimeType = 'image/jpeg';
+                            } else {
+                                // Jika tidak bisa ditentukan, default ke jpeg.
+                                mimeType = 'image/jpeg'; 
+                            }
+                        }
+                        // --- END OF FIX ---
+
+                        serverPayload = {
+                            type: 'generate',
+                            prompt: getGenerationPrompt(task.options),
+                            model: settings.model,
+                            image: {
+                                // Menggunakan variabel mimeType yang sudah diperbaiki
+                                mimeType: mimeType, 
+                                data: base64Image
+                            }
+                        };
                      } else if (task.type === 'translate') {
                          serverPayload = {
                              type: 'translate',
@@ -999,9 +1017,8 @@
                          };
                      }
 
-                    // PERBAIKAN: Menggunakan URL absolut untuk memanggil Netlify Function.
-                    const functionUrl = new URL('/.netlify/functions/generate-metadata', window.location.origin);
-                    const response = await fetch(functionUrl, { 
+                    // Panggil Netlify Function, bukan Google API secara langsung.
+                    const response = await fetch(`/.netlify/functions/generate-metadata`, { 
                         method: 'POST', 
                         headers: { 'Content-Type': 'application/json' }, 
                         body: JSON.stringify(serverPayload),
@@ -1018,7 +1035,6 @@
                         }
                     }
                     
-                    // Netlify function akan meneruskan respons dari Google, jadi strukturnya sama.
                     const result = await response.json();
                     
                     if (!result.candidates || !result.candidates[0].content || !result.candidates[0].content.parts[0].text) {
